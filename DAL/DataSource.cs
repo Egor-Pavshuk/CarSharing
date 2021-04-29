@@ -5,11 +5,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Interface;
 
 
 namespace DAL
 {
-    class DataSource : IDisposable
+    public class DataSource : IDataSourse
     {
         private readonly SqlConnection _connection;
 
@@ -19,27 +20,115 @@ namespace DAL
             _connection.Open();
         }
 
-        #region Cars
+        #region Offers
 
-        public List<Car> GetAllCars()
+        public List<Offer> GetAllOffers()
         {
-            List<Car> cars = new List<Car>();
+            List<Offer> offers = new List<Offer>();
             using (DataSet ds = new DataSet())
             {
-                string sql = " select r.Id, c.Id as CarId, Model, Type, Year from Rent r " +
-                             " join Car c on r.Id_Car = c.Id";
+                string sql = " select Id, Model, Year, Image, Type, Description from Offer ";
 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
                 {
                     da.Fill(ds);
                     foreach (DataRow item in ds.Tables[0].Rows)
                     {
-                        cars.Add(new Car((int) item["Id"], (string) item["Model"],
-                            (int) item["Year"], (string) item["Type"]));
+                        offers.Add(new Offer((int) item["Id"], (string) item["Model"],
+                            (int) item["Year"], (string)item["Image"],
+                            (string) item["Description"], (string)item["Type"]));
                     }
                 }
 
-                return cars;
+                return offers;
+            }
+
+        }
+
+        public Offer GetOfferById(int id)
+        {
+            return null; //todo
+        }
+
+        #endregion
+        //todo
+
+        #region MinivanOffers
+
+        public List<MinivanOffer> GetAllMinivanOffers()
+        {
+            List<MinivanOffer> minivanOffers = new List<MinivanOffer>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Image, Type, Description, Model, Year from Offer " +
+                             " where Type = 'Minivan'";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        minivanOffers.Add(new MinivanOffer((int)item["Id"], (string)item["Model"],
+                            (int)item["Year"], (string)item["Type"], (string)item["Image"],
+                            (string)item["Description"]));
+                    }
+                }
+
+                return minivanOffers;
+            }
+        }
+
+        #endregion 
+
+        #region OutroadCarOffers
+
+        public List<OutroadCarOffer> GetAllOutroadCarOffers()
+        {
+            List<OutroadCarOffer> outroadCarOffers = new List<OutroadCarOffer>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Image, Type, Description, Model, Year from Offer " +
+                             " where Type = 'OutroadCar'";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        outroadCarOffers.Add(new OutroadCarOffer((int)item["Id"], (string)item["Model"],
+                            (int)item["Year"], (string)item["Type"], (string)item["Image"],
+                            (string)item["Description"]));
+                    }
+                }
+
+                return outroadCarOffers;
+            }
+        }
+
+        #endregion
+
+        #region SportCarOffers
+
+        public List<SportCarOffer> GetAllSportCarOffers()
+        {
+            List<SportCarOffer> sportCarOffers = new List<SportCarOffer>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Image, Type, Description, Model, Year from Offer " +
+                             " where Type = 'SportCar'";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        sportCarOffers.Add(new SportCarOffer((int)item["Id"], (string)item["Model"],
+                            (int)item["Year"], (string)item["Type"],(string)item["Image"],
+                            (string)item["Description"]));
+                    }
+                }
+
+                return sportCarOffers;
             }
         }
 
@@ -47,7 +136,7 @@ namespace DAL
 
         #region Customers
 
-        
+
 
         #endregion
 
@@ -55,20 +144,22 @@ namespace DAL
 
         public int CreateRent(Rent rent)
         {
-            string sql = "  Insert into Rent (Id_Car, Id_Customer, Date, Term) " +
-                         " Values (@IdCar, @CustomerEmail, @Date, @Term) ";
+            string sql = "  Insert into Rent (Id_Offer, Customer_Email, Start_Date, End_Date, Insurance_Case) " +
+                         " Values (@IdOffer, @CustomerEmail, @StartDate, @EndDate, @InsuranceCase) ";
 
             using (SqlCommand cmd = new SqlCommand(sql, _connection))
             {
-                cmd.Parameters.Add("@IdCar", SqlDbType.NVarChar);
-                cmd.Parameters["@IdCar"].Value = rent.CarId;
-                cmd.Parameters.Add("@CustomerEmail", SqlDbType.Float);
+                cmd.Parameters.Add("@IdOffer", SqlDbType.Int);
+                cmd.Parameters["@IdOffer"].Value = rent.OfferId;
+                cmd.Parameters.Add("@CustomerEmail", SqlDbType.NVarChar);
                 cmd.Parameters["@CustomerEmail"].Value = rent.CustomerEmail;
-                cmd.Parameters.Add("@Date", SqlDbType.Float);
-                cmd.Parameters["@Date"].Value = rent.Date;
-                cmd.Parameters.Add("@Term", SqlDbType.Float);
-                cmd.Parameters["@Term"].Value = rent.Term;
-
+                cmd.Parameters.Add("@Date", SqlDbType.DateTime);
+                cmd.Parameters["@StartDate"].Value = rent.StartDate;
+                cmd.Parameters.Add("@Term", SqlDbType.DateTime);
+                cmd.Parameters["@EndDate"].Value = rent.EndDate;
+                cmd.Parameters.Add("@InsuranceCase", SqlDbType.Bit);
+                cmd.Parameters["@InsuranceCase"].Value = Convert.ToInt32(rent.InsuranceCase);
+                
 
                 return cmd.ExecuteNonQuery();
             }

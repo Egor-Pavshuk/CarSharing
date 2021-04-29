@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2D57C1E6-91C5-4D23-9F0C-6791E73595E7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>DAL</RootNamespace>
     <AssemblyName>DAL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -45,12 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSource.cs" />
-    <Compile Include="Models\Car.cs" />
-    <Compile Include="Models\Minivan.cs" />
-    <Compile Include="Models\OutroadCar.cs" />
-    <Compile Include="Models\Rent.cs" />
-    <Compile Include="Models\RentalSalon.cs" />
-    <Compile Include="Models\SportCar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,9 +55,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CarSharing\CarSharing.csproj">
-      <Project>{def9f7da-3371-4be2-89d3-1e4b25414ac5}</Project>
-      <Name>CarSharing</Name>
+    <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj">
+      <Project>{54a2a2bf-9f88-434c-85c3-baf990b4d584}</Project>
+      <Name>DAL.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

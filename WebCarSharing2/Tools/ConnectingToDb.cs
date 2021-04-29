@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Interface;
+using System.Web;
 
-namespace DAL
+namespace WebCarSharing.Tools
 {
-    class Program
+    public class ConnectingToDb
     {
-        static string GetConnectionStringToFileLocalBd()
+        public string GetConnectionStringToFileLocalBd()
         {
             // by default seek bd File near .exe; so in BD_ToConsole1\bin\Debug\
             // so need to copy in that place. 
@@ -27,27 +25,10 @@ namespace DAL
         private static void AdjustDataDirectory()
         {
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string relative = @"..\..\..\";
+            string relative = @"..\";
             string absolute = Path.GetFullPath(Path.Combine(baseDirectory, relative));
             Console.WriteLine("path= {0}", absolute);
             AppDomain.CurrentDomain.SetData("DataDirectory", absolute);
-        }
-
-		static void Main(string[] args)
-        {
-            string connectionString = GetConnectionStringToFileLocalBd();
-            using (DataSource dataSource = new DataSource(connectionString))
-            {
-                List<Offer> cars = new List<Offer>();
-                cars = dataSource.GetAllOffers();
-
-                foreach (var car in cars)
-                {
-                    Console.WriteLine("Id  " + car.Id + "  " + "Model  " + car.Model + "  " + "Year  " + car.Year + "  " + "Type  ");
-                }
-            }
-
-            Console.ReadKey();
         }
     }
 }

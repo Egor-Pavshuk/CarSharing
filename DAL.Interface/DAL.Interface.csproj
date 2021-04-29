@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DEF9F7DA-3371-4BE2-89D3-1E4B25414AC5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CarSharing2</RootNamespace>
-    <AssemblyName>CarSharing2</AssemblyName>
+    <ProjectGuid>{54A2A2BF-9F88-434C-85C3-BAF990B4D584}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DAL.Interface</RootNamespace>
+    <AssemblyName>DAL.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDataSourse.cs" />
+    <Compile Include="Models\MinivanOffer.cs" />
+    <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\OutroadCarOffer.cs" />
+    <Compile Include="Models\Rent.cs" />
+    <Compile Include="Models\SportCarOffer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
