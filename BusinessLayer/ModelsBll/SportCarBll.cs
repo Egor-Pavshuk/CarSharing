@@ -7,6 +7,7 @@ namespace CarSharing
         public SportCarOfferBll(int id, string model, int year, string image, string description)
             : base(id, model, year, image, description, "Sport car")
         {
+            DailyCost = 300;
         }
 
         public override int CountShareCost(int term)

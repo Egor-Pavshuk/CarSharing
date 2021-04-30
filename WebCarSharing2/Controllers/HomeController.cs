@@ -26,7 +26,7 @@ namespace WebCarSharing2.Controllers
                 offers.Add(new OfferView
                 {
                     Id = offer.Id, Model = offer.Model, Description = offer.Description, Year = offer.Year, Image = offer.Image,
-                    Type = offer.Type
+                    Type = offer.Type, DailyCost = offer.DailyCost
                 });
             }
 

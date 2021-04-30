@@ -5,3 +5,60 @@
     ViewBag.Title = "All Offers";
 }
 
+<div class="wrapper">
+    
+    <div class="filters">
+        
+        <form action="#" method="post">
+
+            <div class="typeFilter">
+                <select size="1" name="hero[]" class="form-control">
+                    <option value="">All types</option>
+                    <option value="Minivan">Minivan</option>
+                    <option value="SportCar">Sport car</option>
+                    <option value="OutroadCar">Out-road car</option>
+
+                </select>
+            </div>
+            <div class="priceFilter">
+                <select size="1" name="hero[]" class="form-control">
+                    <option value="">Sort</option>
+                    <option value="Down">Bigger price</option>
+                    <option value="Up">Lower price</option>
+
+                </select>
+            </div>
+            <input type="submit" value="Apply" class="btn btn-default">
+        </form>
+
+    </div>
+    
+    <hr style="color: gray; height: 2px;"/>
+
+    @for (int i = 0; i < 2; i++)
+    {
+        <div class="line">
+            @for (int j = 0; j < 3; j++)
+            {
+                <div class="product">
+                    <div class="img">
+                        <img src=@Model.Offers.Skip(3 * i).ToList()[j].Image class="image"/>
+                    </div>
+                    <div class="model">
+                        @Model.Offers.Skip(3 * i).ToList()[j].Model
+                    </div>
+                    <div class="type">
+                        Type: @Model.Offers.Skip(3 * i).ToList()[j].Type
+                    </div>
+                    <div class="year">
+                        Year: @Model.Offers.Skip(3 * i).ToList()[j].Year
+                    </div>
+                    <div class="price">
+                        Daily cost: @Model.Offers.Skip(3 * i).ToList()[j].DailyCost &#36;
+                    </div>
+                </div>
+            }
+        </div>
+
+    }
+</div>
