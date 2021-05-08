@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Interface;
+using DAL.Interface.Models;
 
 
 namespace DAL
@@ -47,7 +48,64 @@ namespace DAL
 
         public Offer GetOfferById(int id)
         {
-            return null; //todo
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Image, Type, Description, Model, Year from Offer " +
+                             " where Id = @id";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.SelectCommand.Parameters.Add("@id", SqlDbType.Int);
+                    da.SelectCommand.Parameters["@id"].Value = id;
+                    da.Fill(ds);
+
+                    if (ds.Tables[0].Rows.Count == 0)
+                        return null;
+                    return new Offer((int)ds.Tables[0].Rows[0]["Id"], (string)ds.Tables[0].Rows[0]["Model"],
+                        (int)ds.Tables[0].Rows[0]["Year"], (string)ds.Tables[0].Rows[0]["Image"], (string)ds.Tables[0].Rows[0]["Description"],
+                        (string)ds.Tables[0].Rows[0]["Type"]);
+                }
+            }
+        }
+
+        public int GetOffersCount()
+        {
+            using (var cmd = new SqlCommand(
+                @" select count(Id) from Offer ", _connection))
+            {
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public List<Offer> GetAllOffers(Parameters parameters)
+        {
+            List<Offer> offers = new List<Offer>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Image, Type, Description, Model, Year from Offer " +
+                             " order by Id" +
+                             " offset @offset ROWS " +
+                             " Fetch next @pageSize Rows only";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.SelectCommand.Parameters.Add("@offset", SqlDbType.Int);
+                    da.SelectCommand.Parameters["@offset"].Value = parameters.Offset;
+
+                    da.SelectCommand.Parameters.Add("@pageSize", SqlDbType.Int);
+                    da.SelectCommand.Parameters["@pageSize"].Value = parameters.PageSize;
+
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        offers.Add(new MinivanOffer((int)item["Id"], (string)item["Model"],
+                            (int)item["Year"], (string)item["Type"], (string)item["Image"],
+                            (string)item["Description"]));
+                    }
+                }
+
+                return offers;
+            }
         }
 
         #endregion

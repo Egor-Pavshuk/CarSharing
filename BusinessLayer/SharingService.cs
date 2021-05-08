@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BusinessLayer.Tools;
 using CarSharing;
 using DAL.Interface;
+using DAL.Interface.Models;
 
 namespace BusinessLayer
 {
@@ -73,7 +74,107 @@ namespace BusinessLayer
             return FactoryClass.CreateChild(offer);
         }
 
-        
+        public int GetOffersCount() => _dataSource.GetOffersCount();
+
+        public List<OfferBll> GetAllOffers(ParametersBll parametersBll)
+        {
+            List<OfferBll> offers = new List<OfferBll>();
+
+            foreach (Offer offer in _dataSource.GetAllOffers(new Parameters()
+            {
+                PageSize = parametersBll.PageSize,
+                Offset = (parametersBll.Page - 1) * parametersBll.PageSize
+            }))
+            {
+                offers.Add(FactoryClass.CreateChild(offer));
+            }
+            return offers;
+        }
+
+        public List<OfferBll> GetSelectedTypes(ParametersBll parameters)
+        {
+            List<OfferBll> offerBll = new List<OfferBll>();
+
+            switch (parameters.TypeFilter)
+            {
+                case "All types":
+                    return GetAllOffers();
+                case "Minivan":
+                    foreach (var offer in GetAllMinivanOffers())
+                    {
+                        offerBll.Add(offer);
+                    }
+                    break;
+                case "Sport car":
+                    foreach (var offer in GetAllSportCarOffers())
+                    {
+                        offerBll.Add(offer);
+                    }
+                    break;
+                case "Out-road car":
+                    foreach (var offer in GetAllOutroadCarOffersOffers())
+                    {
+                        offerBll.Add(offer);
+                    }
+                    break;
+                default:
+                    throw new Exception("Incorrect type");
+            }
+
+            return offerBll;
+        }
+
+        public List<OfferBll> Sort(ParametersBll parameters, List<OfferBll> offers)
+        {
+            switch (parameters.PriceFilter)
+            {
+                case "Up":
+                    return SortPriceUp(offers);
+                case "Down":
+                    return SortPriceDown(offers);
+                case "Sort":
+                    return offers;
+                default:
+                    throw new Exception("Incorrect filter!");
+            }
+        }
+
+        private List<OfferBll> SortPriceUp(List<OfferBll> offers)
+        {
+            for (int i = 1; i < offers.Count; i++)
+            {
+                for (int j = 0; j < offers.Count - i; j++)
+                {
+                    if (offers[j].DailyCost > offers[j + 1].DailyCost)
+                    {
+                        var temp = offers[j];
+                        offers[j] = offers[j + 1];
+                        offers[j + 1] = temp;
+                    }
+                }
+            }
+
+            return offers;
+        }
+
+        private List<OfferBll> SortPriceDown(List<OfferBll> offers)
+        {
+            for (int i = 1; i < offers.Count; i++)
+            {
+                for (int j = 0; j < offers.Count - i; j++)
+                {
+                    if (offers[j].DailyCost < offers[j + 1].DailyCost)
+                    {
+                        var temp = offers[j];
+                        offers[j] = offers[j + 1];
+                        offers[j + 1] = temp;
+                    }
+                }
+            }
+
+            return offers;
+        }
+
 
         private bool _disposed;
         public void Dispose()

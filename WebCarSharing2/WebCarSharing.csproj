@@ -124,8 +124,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Models\Offers\OffersView.cs" />
     <Compile Include="Models\Offers\OfferView.cs" />
+    <Compile Include="Models\Pager\PagerParameters.cs" />
+    <Compile Include="Models\Pager\PagingInfoView.cs" />
+    <Compile Include="Models\Offers\ParametersView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ConnectingToDb.cs" />
   </ItemGroup>

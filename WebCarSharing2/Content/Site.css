@@ -60,6 +60,7 @@ float: left;
 .line {
     float: left;
     min-width: 1000px;
+    height: 750px;
 }
 
 .product {
@@ -118,4 +119,23 @@ float: left;
     text-align: left;
     font-weight: bolder;
     margin-left: 20px;
+}
+
+.pager {
+    text-align: right;
+    border-top: 2px solid silver;
+}
+
+.pager a {
+    padding: 0 .4em 0 .4em;
+    color: #666;
+}
+
+.pager:hover {
+    background-color: silver;
+}
+
+.pager a.selected {
+    background-color: #353535;
+    color: white;
 }

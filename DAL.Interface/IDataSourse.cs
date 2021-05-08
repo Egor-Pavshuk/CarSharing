@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Interface.Models;
 
 namespace DAL.Interface
 {
@@ -14,6 +15,8 @@ namespace DAL.Interface
         List<OutroadCarOffer> GetAllOutroadCarOffers();
         List<SportCarOffer> GetAllSportCarOffers();
         int CreateRent(Rent rent);
+        int GetOffersCount();
+        List<Offer> GetAllOffers(Parameters parameters);
 
     }
 }
