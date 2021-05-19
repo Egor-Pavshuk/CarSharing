@@ -126,13 +126,15 @@ float: left;
     border-top: 2px solid silver;
 }
 
-.pager a {
+.pager div {
     padding: 0 .4em 0 .4em;
     color: #666;
-    font-size: 22px;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: 8px;
 }
 
-.pager a:hover {
+.pager div:hover {
         background-color: lightskyblue;
     }
 
@@ -140,7 +142,7 @@ float: left;
     
 }
 
-.pager a.selected {
+.pager>a>div.selected {
     background-color: #353535;
     color: white;
 }
