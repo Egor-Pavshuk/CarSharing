@@ -33,6 +33,7 @@ namespace WebCarSharing2.Controllers
             };
 
             List<OfferView> offers = new List<OfferView>();
+
             foreach (var offer in _sharingService.GetAllOffers(parametersBll))
             {
                 offers.Add(new OfferView
@@ -42,7 +43,8 @@ namespace WebCarSharing2.Controllers
                 });
             }
 
-            int totalItems = _sharingService.GetOffersCount();
+
+            int totalItems = _sharingService.GetOffersCount(parametersBll);
 
             PagingInfoView pagingInfo = new PagingInfoView
             {
@@ -64,15 +66,21 @@ namespace WebCarSharing2.Controllers
         public ActionResult Index(ParametersView parameters)
         {
             ParametersBll parametersBll = new ParametersBll()
-                {PriceFilter = parameters.PriceFilter, TypeFilter = parameters.TypeFilter};
-            List<OfferView> offerView = new List<OfferView>();
-
-            List<OfferBll> offerBll = _sharingService.GetSelectedTypes(parametersBll);
-            _sharingService.Sort(parametersBll, offerBll);
-
-            foreach (var offer in offerBll)
             {
-                offerView.Add(new OfferView
+                PriceFilter = parameters.PriceFilter, 
+                TypeFilter = parameters.TypeFilter,
+                Page = parameters.Page,
+                PageSize = PagerParameters.PageSize
+            };
+            List<OfferView> offers = new List<OfferView>();
+            List<OfferBll> offersBll = _sharingService.GetSelectedTypes(parametersBll);
+
+            _sharingService.Sort(parametersBll, offersBll);
+            offersBll = _sharingService.GetCurrentPageItems(offersBll, parametersBll);
+
+            foreach (var offer in offersBll)
+            {
+                offers.Add(new OfferView
                 {
                     Id = offer.Id,
                     Model = offer.Model,
@@ -82,8 +90,26 @@ namespace WebCarSharing2.Controllers
                     Type = offer.Type,
                     DailyCost = offer.DailyCost
                 });
+
+                
             }
-            return View(new OffersView(){Offers = offerView});
+
+            int totalItems = _sharingService.GetOffersCount(parametersBll);
+
+            PagingInfoView pagingInfo = new PagingInfoView
+            {
+                CurrentPage = parameters.Page,
+                ItemsPerPage = PagerParameters.PageSize,
+                TotalItems = totalItems
+            };
+            
+            OffersView offerView = new OffersView()
+            {
+                Offers = offers,
+                PagingInfo = pagingInfo
+            };
+
+            return View(offerView);
         }
         
     }

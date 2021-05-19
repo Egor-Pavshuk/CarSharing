@@ -17,9 +17,12 @@ namespace WebCarSharing2.HtmlHelpers
         )
         {
             StringBuilder result = new StringBuilder();
+
+            TagBuilder arrowTag = new TagBuilder("a"); //todo or not
+
             for (int i = 1; i <= pagingInfo.TotalPages(); i++)
             {
-                TagBuilder tag = new TagBuilder("a");
+                TagBuilder tag = new TagBuilder("a"); //todo with div
                 tag.MergeAttribute("href","javascript: PageClick(" + i + ")");
                 tag.InnerHtml = i.ToString();
                 if(i == pagingInfo.CurrentPage)

@@ -17,6 +17,9 @@ namespace DAL.Interface
         int CreateRent(Rent rent);
         int GetOffersCount();
         List<Offer> GetAllOffers(Parameters parameters);
+        int GetMinivansCount();
+        int GetOutroadCarsCount();
+        int GetSportCarsCount();
 
     }
 }

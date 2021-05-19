@@ -129,10 +129,15 @@ float: left;
 .pager a {
     padding: 0 .4em 0 .4em;
     color: #666;
+    font-size: 22px;
 }
 
+.pager a:hover {
+        background-color: lightskyblue;
+    }
+
 .pager:hover {
-    background-color: silver;
+    
 }
 
 .pager a.selected {

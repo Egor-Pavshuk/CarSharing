@@ -74,21 +74,32 @@ namespace BusinessLayer
             return FactoryClass.CreateChild(offer);
         }
 
-        public int GetOffersCount() => _dataSource.GetOffersCount();
+        public int GetOffersCount(ParametersBll parameters)
+        {
+            switch (parameters.TypeFilter)
+            {
+                case "All types":
+                    return _dataSource.GetOffersCount();
+                case "Minivan":
+                    return _dataSource.GetMinivansCount();
+                case "Sport car":
+                    return _dataSource.GetSportCarsCount();
+                case "Out-road car":
+                    return _dataSource.GetOutroadCarsCount();
+                default:
+                    throw new Exception("Incorrect type");
+            }
+        }
 
         public List<OfferBll> GetAllOffers(ParametersBll parametersBll)
         {
             List<OfferBll> offers = new List<OfferBll>();
 
-            foreach (Offer offer in _dataSource.GetAllOffers(new Parameters()
-            {
-                PageSize = parametersBll.PageSize,
-                Offset = (parametersBll.Page - 1) * parametersBll.PageSize
-            }))
+            foreach (Offer offer in _dataSource.GetAllOffers())
             {
                 offers.Add(FactoryClass.CreateChild(offer));
             }
-            return offers;
+            return offers.GetRange((parametersBll.Page - 1) * parametersBll.PageSize,parametersBll.PageSize);
         }
 
         public List<OfferBll> GetSelectedTypes(ParametersBll parameters)
@@ -124,7 +135,7 @@ namespace BusinessLayer
             return offerBll;
         }
 
-        public List<OfferBll> Sort(ParametersBll parameters, List<OfferBll> offers)
+        public List<OfferBll> Sort(ParametersBll parameters, List<OfferBll> offers) 
         {
             switch (parameters.PriceFilter)
             {
@@ -175,6 +186,10 @@ namespace BusinessLayer
             return offers;
         }
 
+        public List<OfferBll> GetCurrentPageItems(List<OfferBll>offers, ParametersBll parameters)=>  
+            offers.Skip((parameters.Page - 1) * parameters.PageSize).Count() >= parameters.PageSize ?
+                offers.GetRange((parameters.Page - 1) * parameters.PageSize, parameters.PageSize):
+                offers.Skip((parameters.Page - 1) * parameters.PageSize).ToList();
 
         private bool _disposed;
         public void Dispose()

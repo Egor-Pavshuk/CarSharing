@@ -136,6 +136,16 @@ namespace DAL
             }
         }
 
+        public int GetMinivansCount()
+        {
+            using (var cmd = new SqlCommand(
+                @" select count(Id) from Offer " + 
+                "where Type = 'Minivan'", _connection))
+            {
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
         #endregion 
 
         #region OutroadCarOffers
@@ -163,6 +173,16 @@ namespace DAL
             }
         }
 
+        public int GetOutroadCarsCount()
+        {
+            using (var cmd = new SqlCommand(
+                @" select count(Id) from Offer " +
+                "where Type = 'OutroadCar'", _connection))
+            {
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
         #endregion
 
         #region SportCarOffers
@@ -187,6 +207,16 @@ namespace DAL
                 }
 
                 return sportCarOffers;
+            }
+        }
+
+        public int GetSportCarsCount()
+        {
+            using (var cmd = new SqlCommand(
+                @" select count(Id) from Offer " +
+                "where Type = 'SportCar'", _connection))
+            {
+                return (int)cmd.ExecuteScalar();
             }
         }
 

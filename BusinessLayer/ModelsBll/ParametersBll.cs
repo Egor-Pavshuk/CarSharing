@@ -12,5 +12,10 @@ namespace BusinessLayer
         public string TypeFilter { get; set; }
         public int Page;
         public int PageSize;
+        public ParametersBll()
+        {
+            PriceFilter = "Sort";
+            TypeFilter = "All types";
+        }
     }
 }

@@ -17,8 +17,8 @@ namespace BusinessLayer
         OfferBll GetOfferById(int id);
         List<OfferBll> GetSelectedTypes(ParametersBll parameters);
         List<OfferBll> Sort(ParametersBll parameters, List<OfferBll> offers);
-        int GetOffersCount();
+        int GetOffersCount(ParametersBll parameters);
         List<OfferBll> GetAllOffers(ParametersBll parametersBll);
-
+        List<OfferBll> GetCurrentPageItems(List<OfferBll> offers, ParametersBll parameters);
     }
 }
