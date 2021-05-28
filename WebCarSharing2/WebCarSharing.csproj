@@ -121,6 +121,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\RentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -130,6 +132,7 @@
     <Compile Include="Models\Pager\PagerParameters.cs" />
     <Compile Include="Models\Pager\PagingInfoView.cs" />
     <Compile Include="Models\Offers\ParametersView.cs" />
+    <Compile Include="Models\Rents\RentView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ConnectingToDb.cs" />
   </ItemGroup>
@@ -175,6 +178,10 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Offer\ShowOfferById.cshtml" />
+    <Content Include="Views\Rent\CreateRent.cshtml" />
+    <Content Include="Views\Rent\CreateRentReady.cshtml" />
+    <Content Include="Views\Rent\CloseRent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

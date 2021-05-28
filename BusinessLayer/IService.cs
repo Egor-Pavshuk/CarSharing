@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.ModelsBll;
 using CarSharing;
 
 namespace BusinessLayer
@@ -20,5 +21,7 @@ namespace BusinessLayer
         int GetOffersCount(ParametersBll parameters);
         List<OfferBll> GetAllOffers(ParametersBll parametersBll);
         List<OfferBll> GetCurrentPageItems(List<OfferBll> offers, ParametersBll parameters);
+        bool IsOfferTaken(int offerIndex);
+        RentBll GetRentByOfferId(RentParametersBll parameters);
     }
 }

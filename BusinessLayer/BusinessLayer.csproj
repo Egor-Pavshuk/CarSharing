@@ -51,6 +51,7 @@
     <Compile Include="ModelsBll\OfferBll.cs" />
     <Compile Include="ModelsBll\OutroadCarBll.cs" />
     <Compile Include="ModelsBll\RentBll.cs" />
+    <Compile Include="ModelsBll\RentParametersBll.cs" />
     <Compile Include="ModelsBll\SportCarBll.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

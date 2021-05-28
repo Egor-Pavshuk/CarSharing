@@ -5,14 +5,24 @@
 
 
 .body-content {
+    
     padding-left: 15px;
     padding-right: 15px;
     background-color: white;
     min-width: 1150px;
+    min-height: 1020px;
+    border: 3px solid gray;
+    border-style: outset; 
 }
 
+footer {
+    background: linear-gradient(45deg, #a9a9a9, #353535);
+    color: white;
+    
+}
 body {
-background-image: url("/Content/Images/background.jpg");
+    /*background: darkgrey;*/
+    background-image: url("/Content/Images/background.jpg");
     background-repeat: no-repeat;
     min-width: 1000px;
 }
@@ -61,7 +71,10 @@ float: left;
     height: 750px;
 }
 
+
 .product {
+    background: #666666;
+    color: white;
     height: 340px;
     width: 300px;
     min-width: 300px;
@@ -72,7 +85,6 @@ float: left;
     border-style: outset;
     border-radius: 10px;
     float: left;
-    cursor: pointer;
 }
 
     .product:hover {
@@ -146,4 +158,13 @@ float: left;
 .pager>a>div.selected {
     background-color: #353535;
     color: white;
+}
+.rentButton {
+    float: right;
+    margin-right: 30px;
+    margin-top: -30px;
+}
+.taken {
+    background: white !important;
+    color: black !important;
 }

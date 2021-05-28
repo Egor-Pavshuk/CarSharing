@@ -9,15 +9,15 @@ namespace DAL.Interface
         public int OfferId { get; set; }
         public DateTime StartDate { get; set; }
         public bool InsuranceCase { get; set; }
-        public int EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string CustomerEmail { get; set; }
         public float Cost { get; set; }
 
-        public Rent(int id, int offerId, string customerEmail, bool insuranceCase = false)
+        public Rent(int id, int offerId, DateTime startDate, string customerEmail, bool insuranceCase = false)
         {
             Id = id;
             OfferId = offerId;
-            StartDate = DateTime.Now;
+            StartDate = startDate;
             CustomerEmail = customerEmail;
             InsuranceCase = insuranceCase;
         }

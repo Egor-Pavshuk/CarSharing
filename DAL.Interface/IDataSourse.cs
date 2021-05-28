@@ -20,6 +20,8 @@ namespace DAL.Interface
         int GetMinivansCount();
         int GetOutroadCarsCount();
         int GetSportCarsCount();
+        int CountOfNullEndDateByOfferId(int offerId);
+        Rent GetRentByOfferId(RentParameters parameters);
 
     }
 }

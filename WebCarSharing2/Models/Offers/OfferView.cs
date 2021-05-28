@@ -13,5 +13,6 @@ namespace WebCarSharing.Models.Offers
         public string Image { get; set; }
         public float DailyCost { get; set; }
         public string Description { get; set; }
+        public bool IsTaken { get; set; }
     }
 }

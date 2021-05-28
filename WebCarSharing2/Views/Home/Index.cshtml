@@ -27,23 +27,40 @@
     <div class="line">
             @foreach(var offer in Model.Offers)
             {
-                <div class="product">
-                    <div class="img">
-                        <img src= @offer.Image class="image" />
+                string className = "product";
+                if (offer.IsTaken)
+                {
+                    className += " taken";
+                }
+                    <div class="@className">
+                        <div class="img">
+                            <img src=@offer.Image class="image" />
+                        </div>
+                        <div class="model">
+                            @offer.Model
+                        </div>
+                        <div class="type">
+                            Type: @offer.Type
+                        </div>
+                        <div class="year">
+                            Year: @offer.Year
+                        </div>
+                        <div class="price">
+                            Daily cost: @offer.DailyCost &#36;
+                        </div>
+                        <div class="rentButton">
+                            @if (offer.IsTaken)
+                            {
+                                @Html.ActionLink("Close rent", "CloseRent", "Rent", new { offerIndex = offer.Id }, new { @class = "btn btn-default" })
+
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Get", "ShowOfferById", "Offer", new { offerIndex = offer.Id }, new { @class = "btn btn-default" })
+                            }
+                        </div>
                     </div>
-                    <div class="model">
-                        @offer.Model
-                    </div>
-                    <div class="type">
-                        Type: @offer.Type
-                    </div>
-                    <div class="year">
-                        Year: @offer.Year
-                    </div>
-                    <div class="price">
-                        Daily cost: @offer.DailyCost &#36;
-                    </div>
-                </div>
+                
             }
     </div>
 </div>

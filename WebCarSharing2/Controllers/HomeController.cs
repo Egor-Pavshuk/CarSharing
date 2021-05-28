@@ -36,11 +36,14 @@ namespace WebCarSharing2.Controllers
 
             foreach (var offer in _sharingService.GetAllOffers(parametersBll))
             {
+                bool isTaken = _sharingService.IsOfferTaken(offer.Id);
+                
                 offers.Add(new OfferView
                 {
                     Id = offer.Id, Model = offer.Model, Description = offer.Description, Year = offer.Year, Image = offer.Image,
-                    Type = offer.Type, DailyCost = offer.DailyCost
+                    Type = offer.Type, DailyCost = offer.DailyCost, IsTaken = isTaken
                 });
+                
             }
 
 
@@ -80,6 +83,7 @@ namespace WebCarSharing2.Controllers
 
             foreach (var offer in offersBll)
             {
+                bool isTaken = _sharingService.IsOfferTaken(offer.Id);
                 offers.Add(new OfferView
                 {
                     Id = offer.Id,
@@ -88,7 +92,8 @@ namespace WebCarSharing2.Controllers
                     Year = offer.Year,
                     Image = offer.Image,
                     Type = offer.Type,
-                    DailyCost = offer.DailyCost
+                    DailyCost = offer.DailyCost,
+                    IsTaken = isTaken
                 });
 
                 

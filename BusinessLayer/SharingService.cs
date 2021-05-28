@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.ModelsBll;
 using BusinessLayer.Tools;
 using CarSharing;
 using DAL.Interface;
@@ -21,7 +22,7 @@ namespace BusinessLayer
 
         public void CreateRent(RentBll rent)
         {
-            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.CustomerEmail, rent.InsuranceCase));
+            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.Date, rent.CustomerEmail, rent.InsuranceCase));
         }
         
         public List<MinivanOfferBll> GetAllMinivanOffers()
@@ -190,6 +191,34 @@ namespace BusinessLayer
             offers.Skip((parameters.Page - 1) * parameters.PageSize).Count() >= parameters.PageSize ?
                 offers.GetRange((parameters.Page - 1) * parameters.PageSize, parameters.PageSize):
                 offers.Skip((parameters.Page - 1) * parameters.PageSize).ToList();
+
+        public bool IsOfferTaken(int offerIndex)
+        {
+            if (_dataSource.CountOfNullEndDateByOfferId(offerIndex) == 0)
+                return false;
+            return true;
+        }
+
+        #region Rent
+
+        public RentBll GetRentByOfferId(RentParametersBll parameters)
+        {
+            Rent rent = _dataSource.GetRentByOfferId(new RentParameters
+            {
+                CustomerEmail = parameters.CustomerEmail,
+                OfferId = parameters.OfferId
+            });
+
+            OfferBll offerBll = FactoryClass.CreateChild(_dataSource.GetOfferById(parameters.OfferId));
+
+            return new RentBll(offerBll, rent.CustomerEmail, rent.InsuranceCase)
+            {
+                Date = rent.StartDate,
+                Id = rent.Id
+            };
+        }
+
+        #endregion
 
         private bool _disposed;
         public void Dispose()

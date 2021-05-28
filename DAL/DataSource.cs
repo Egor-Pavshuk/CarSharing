@@ -232,8 +232,8 @@ namespace DAL
 
         public int CreateRent(Rent rent)
         {
-            string sql = "  Insert into Rent (Id_Offer, Customer_Email, Start_Date, End_Date, Insurance_Case) " +
-                         " Values (@IdOffer, @CustomerEmail, @StartDate, @EndDate, @InsuranceCase) ";
+            string sql = "  Insert into Rent (Id_Offer, Customer_Email, Start_Date, Insurance_Case) " +
+                         " Values (@IdOffer, @CustomerEmail, @StartDate, @InsuranceCase) ";
 
             using (SqlCommand cmd = new SqlCommand(sql, _connection))
             {
@@ -241,15 +241,50 @@ namespace DAL
                 cmd.Parameters["@IdOffer"].Value = rent.OfferId;
                 cmd.Parameters.Add("@CustomerEmail", SqlDbType.NVarChar);
                 cmd.Parameters["@CustomerEmail"].Value = rent.CustomerEmail;
-                cmd.Parameters.Add("@Date", SqlDbType.DateTime);
+                cmd.Parameters.Add("@StartDate", SqlDbType.DateTime);
                 cmd.Parameters["@StartDate"].Value = rent.StartDate;
-                cmd.Parameters.Add("@Term", SqlDbType.DateTime);
-                cmd.Parameters["@EndDate"].Value = rent.EndDate;
                 cmd.Parameters.Add("@InsuranceCase", SqlDbType.Bit);
                 cmd.Parameters["@InsuranceCase"].Value = Convert.ToInt32(rent.InsuranceCase);
                 
 
                 return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int CountOfNullEndDateByOfferId(int offerId)
+        {
+            string sql = " select count(*) from Rent " +
+                         " where Rent.Id_Offer = @IdOffer and Rent.End_Date is NULL ";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
+            {
+                cmd.Parameters.Add("@IdOffer", SqlDbType.Int);
+                cmd.Parameters["@IdOffer"].Value = offerId;
+                
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public Rent GetRentByOfferId(RentParameters parameters) 
+        {
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Id_Offer, Customer_Email, Start_Date, End_Date, Cost, Insurance_Case from Rent " +
+                             " where Id_Offer = @IdOffer and Customer_Email = @CustomerEmail and End_Date is NULL";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.SelectCommand.Parameters.Add("@IdOffer", SqlDbType.Int);
+                    da.SelectCommand.Parameters["@IdOffer"].Value = parameters.OfferId;
+                    da.SelectCommand.Parameters.Add("@CustomerEmail", SqlDbType.NVarChar);
+                    da.SelectCommand.Parameters["@CustomerEmail"].Value = parameters.CustomerEmail;
+                    da.Fill(ds);
+
+                    if (ds.Tables[0].Rows.Count == 0)
+                        return null;
+                    return new Rent((int)ds.Tables[0].Rows[0]["Id"], (int)ds.Tables[0].Rows[0]["Id_Offer"],
+                        (DateTime)ds.Tables[0].Rows[0]["Start_Date"], (string)ds.Tables[0].Rows[0]["Customer_Email"], (bool)ds.Tables[0].Rows[0]["Insurance_Case"]);
+                }
             }
         }
 
