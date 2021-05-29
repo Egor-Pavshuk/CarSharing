@@ -22,6 +22,7 @@ namespace BusinessLayer
         List<OfferBll> GetAllOffers(ParametersBll parametersBll);
         List<OfferBll> GetCurrentPageItems(List<OfferBll> offers, ParametersBll parameters);
         bool IsOfferTaken(int offerIndex);
-        RentBll GetRentByOfferId(RentParametersBll parameters);
+        RentBll GetOpenRentByOfferId(RentParametersBll parameters);
+        void CloseRent(RentBll rent);
     }
 }

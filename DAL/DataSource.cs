@@ -265,7 +265,7 @@ namespace DAL
             }
         }
 
-        public Rent GetRentByOfferId(RentParameters parameters) 
+        public Rent GetOpenRentByOfferId(RentParameters parameters) 
         {
             using (DataSet ds = new DataSet())
             {
@@ -285,6 +285,25 @@ namespace DAL
                     return new Rent((int)ds.Tables[0].Rows[0]["Id"], (int)ds.Tables[0].Rows[0]["Id_Offer"],
                         (DateTime)ds.Tables[0].Rows[0]["Start_Date"], (string)ds.Tables[0].Rows[0]["Customer_Email"], (bool)ds.Tables[0].Rows[0]["Insurance_Case"]);
                 }
+            }
+        }
+
+        public int CloseRent(Rent rent)
+        {
+            string sql = "  update Rent set End_Date = @EndDate, Cost = @Cost " +
+                         " where Id = @IdRent ";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
+            {
+                cmd.Parameters.Add("@IdRent", SqlDbType.Int);
+                cmd.Parameters["@IdRent"].Value = rent.Id;
+                cmd.Parameters.Add("@EndDate", SqlDbType.DateTime);
+                cmd.Parameters["@EndDate"].Value = rent.EndDate;
+                cmd.Parameters.Add("@Cost", SqlDbType.Int);
+                cmd.Parameters["@Cost"].Value = rent.Cost;
+
+
+                return cmd.ExecuteNonQuery();
             }
         }
 

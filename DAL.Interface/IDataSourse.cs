@@ -21,7 +21,8 @@ namespace DAL.Interface
         int GetOutroadCarsCount();
         int GetSportCarsCount();
         int CountOfNullEndDateByOfferId(int offerId);
-        Rent GetRentByOfferId(RentParameters parameters);
+        Rent GetOpenRentByOfferId(RentParameters parameters);
+        int CloseRent(Rent rent);
 
     }
 }

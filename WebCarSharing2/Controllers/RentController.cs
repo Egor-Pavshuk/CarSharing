@@ -60,8 +60,9 @@ namespace WebCarSharing2.Controllers
             RentParametersBll parameters = new RentParametersBll
                 {CustomerEmail = rentView.CustomerEmail, OfferId = rentView.OfferId};
 
-            RentBll rentBll = _sharingService.GetRentByOfferId(parameters);
+            RentBll rentBll = _sharingService.GetOpenRentByOfferId(parameters);
             int cost = rentBll.GetShareCost();
+            _sharingService.CloseRent(rentBll);
 
             return View();
         }

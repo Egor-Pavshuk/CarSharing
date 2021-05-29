@@ -22,7 +22,7 @@ namespace BusinessLayer
 
         public void CreateRent(RentBll rent)
         {
-            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.Date, rent.CustomerEmail, rent.InsuranceCase));
+            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.CustomerEmail, rent.InsuranceCase));
         }
         
         public List<MinivanOfferBll> GetAllMinivanOffers()
@@ -201,9 +201,9 @@ namespace BusinessLayer
 
         #region Rent
 
-        public RentBll GetRentByOfferId(RentParametersBll parameters)
+        public RentBll GetOpenRentByOfferId(RentParametersBll parameters)
         {
-            Rent rent = _dataSource.GetRentByOfferId(new RentParameters
+            Rent rent = _dataSource.GetOpenRentByOfferId(new RentParameters
             {
                 CustomerEmail = parameters.CustomerEmail,
                 OfferId = parameters.OfferId
@@ -213,9 +213,21 @@ namespace BusinessLayer
 
             return new RentBll(offerBll, rent.CustomerEmail, rent.InsuranceCase)
             {
-                Date = rent.StartDate,
+                StartDate = rent.StartDate,
                 Id = rent.Id
             };
+        }
+
+        public void CloseRent(RentBll rent)
+        {
+            rent.Cost = rent.GetShareCost();
+            rent.EndDate = DateTime.Now;
+            _dataSource.CloseRent(
+                new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.CustomerEmail, rent.InsuranceCase)
+                {
+                    Cost = rent.Cost,
+                    EndDate = rent.EndDate
+                });
         }
 
         #endregion
