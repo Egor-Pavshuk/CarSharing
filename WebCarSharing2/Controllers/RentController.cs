@@ -64,7 +64,18 @@ namespace WebCarSharing2.Controllers
             int cost = rentBll.GetShareCost();
             _sharingService.CloseRent(rentBll);
 
-            return View();
+            rentView.Cost = cost;
+            rentView.EndDate = rentBll.EndDate;
+            rentView.StartDate = rentBll.StartDate;
+            TempData["model"] = rentView;
+
+            return RedirectToAction("SharingCost");
+            
+        }
+
+        public ActionResult SharingCost()
+        {
+            return View(TempData["model"]);
         }
     }
 }

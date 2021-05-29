@@ -11,7 +11,9 @@ namespace WebCarSharing2.Models.Rents
         public int OfferId { get; set;}
         public string CustomerEmail { get; set; }
         public bool InsuranceCase { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int Cost { get; set; }
         
     }
 }
