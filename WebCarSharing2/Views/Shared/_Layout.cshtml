@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/favicon.png" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -28,15 +29,14 @@
     <div class="container body-content">
         @RenderBody()
 
-        <hr />
-        <footer>
-            
-            <p align="center">Роботу виконав студент групи ОФ-81</p>
-            <p align="center">Павшук Єгор Кирилович</p>
-            <p align="center">&copy; 2021 </p>
-        </footer>
-    </div>
 
+    </div>
+    <hr />
+    <footer>
+        <p align="center">Роботу виконав студент групи ОФ-81</p>
+        <p align="center">Павшук Єгор Кирилович</p>
+        <p align="center">&copy; 2021 </p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

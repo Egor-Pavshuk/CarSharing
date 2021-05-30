@@ -67,6 +67,7 @@ namespace WebCarSharing2.Controllers
             rentView.Cost = cost;
             rentView.EndDate = rentBll.EndDate;
             rentView.StartDate = rentBll.StartDate;
+            rentView.InsuranceCase = rentBll.InsuranceCase;
             TempData["model"] = rentView;
 
             return RedirectToAction("SharingCost");

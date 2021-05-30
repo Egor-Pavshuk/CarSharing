@@ -1,60 +1,46 @@
 ﻿@model WebCarSharing2.Models.Rents.RentView
 
 @{
-    ViewBag.Title = "SharingCost";
+    
+    ViewBag.Title = "Sharing cost";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SharingCost</h2>
 
+<h2>Sharing cost</h2>
+<hr />
 <div>
-    <h4>RentView</h4>
-    <hr />
-    <dl class="dl-horizontal">
+    <div class="" style="font-size: 20px;">
+        <div class="">
+            <div class="">
+                <b>Customer e-mail:</b> @Model.CustomerEmail
+            </div>
+            @if (Model.InsuranceCase)
+            {
+                <div class="offer-type">
+                    <b>Insurance case:</b> &#9989;
+                </div>
+            }
+            else
+            {
+                <div class="offer-type">
+                    <b>Insurance case:</b> &#10060;
+                </div>
+            }
+            <div class="offer-year">
+                <b>Start date:</b> @Model.StartDate
+            </div>
+            <div class="offer-price">
+                <b>End date:</b> @Model.EndDate 
+            </div>
+            <div class="offer-description">
+                <b>Cost:</b> @Model.Cost &#36;
+            </div>
+        </div>
+    </div>
         
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerEmail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CustomerEmail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.InsuranceCase)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.InsuranceCase)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cost) &#36;
-        </dd>
-
-    </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index", "Home",null,new { @class = "btn btn-default" })
+    @Html.ActionLink("Back to List", "Index", "Home",null,new { @class = "btn btn-default", style="margin-top: 20px;"})
     
 </p>
