@@ -184,6 +184,7 @@
     <Content Include="Views\Rent\CreateRentReady.cshtml" />
     <Content Include="Views\Rent\CloseRent.cshtml" />
     <Content Include="Views\Rent\SharingCost.cshtml" />
+    <Content Include="Views\Rent\CustomerNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

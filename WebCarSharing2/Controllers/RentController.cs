@@ -61,6 +61,12 @@ namespace WebCarSharing2.Controllers
                 {CustomerEmail = rentView.CustomerEmail, OfferId = rentView.OfferId};
 
             RentBll rentBll = _sharingService.GetOpenRentByOfferId(parameters);
+
+            if (rentBll == null)
+            {
+               return RedirectToAction("CustomerNotFound");
+            }
+            
             int cost = rentBll.GetShareCost();
             _sharingService.CloseRent(rentBll);
 
@@ -77,6 +83,11 @@ namespace WebCarSharing2.Controllers
         public ActionResult SharingCost()
         {
             return View(TempData["model"]);
+        }
+
+        public ActionResult CustomerNotFound()
+        {
+            return View();
         }
     }
 }

@@ -209,6 +209,9 @@ namespace BusinessLayer
                 OfferId = parameters.OfferId
             });
 
+            if (rent == null)
+                return null;
+
             OfferBll offerBll = FactoryClass.CreateChild(_dataSource.GetOfferById(parameters.OfferId));
 
             return new RentBll(offerBll, rent.CustomerEmail, rent.InsuranceCase)
