@@ -21,7 +21,7 @@ namespace CarSharing
             InsuranceCase = insuranceCase;
         }
         
-        public int GetShareCost() => InsuranceCase ? OfferBll.CountShareCost(DateTime.Now.Day - StartDate.Day) + 150 : OfferBll.CountShareCost(DateTime.Now.Day - StartDate.Day);
+        public int GetShareCost() => InsuranceCase ? OfferBll.CountShareCost(DateTime.Now.Subtract(StartDate).Days) + 150 : OfferBll.CountShareCost(DateTime.Now.Subtract(StartDate).Days);
         public void CreateInsuranceCase() => InsuranceCase = true;
     }
 }
