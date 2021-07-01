@@ -120,13 +120,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\OpenedRentsController.cs" />
     <Compile Include="Controllers\RentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
+    <Compile Include="Models\Customer\CustomersView.cs" />
+    <Compile Include="Models\Customer\CustomerView.cs" />
     <Compile Include="Models\Offers\OffersView.cs" />
     <Compile Include="Models\Offers\OfferView.cs" />
     <Compile Include="Models\Pager\PagerParameters.cs" />
@@ -185,6 +189,8 @@
     <Content Include="Views\Rent\CloseRent.cshtml" />
     <Content Include="Views\Rent\SharingCost.cshtml" />
     <Content Include="Views\Rent\CustomerNotFound.cshtml" />
+    <Content Include="Views\OpenedRents\OpenedRents.cshtml" />
+    <Content Include="Views\Customer\AllCustomers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

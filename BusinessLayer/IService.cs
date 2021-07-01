@@ -24,5 +24,9 @@ namespace BusinessLayer
         bool IsOfferTaken(int offerIndex);
         RentBll GetOpenRentByOfferId(RentParametersBll parameters);
         void CloseRent(RentBll rent);
+        List<OfferBll> GetTakenOffers(ParametersBll parametersBll);
+        List<CustomerBll> GetAllCustomers();
+        void AddNewCustomer(CustomerBll customerBll);
+
     }
 }

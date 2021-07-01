@@ -25,13 +25,23 @@ namespace WebCarSharing2.Controllers
         public ActionResult CreateRent(int offerIndex)
         {
             RentView rentView = new RentView {OfferId = offerIndex};
+            CustomerBll customerBll = new CustomerBll();
             return View(rentView);
         }
 
         [HttpPost]
         public ActionResult CreateRent(RentView rentView)
         {
-            RentBll rentBll = new RentBll(_sharingService.GetOfferById(rentView.OfferId), rentView.CustomerEmail, rentView.InsuranceCase);
+            CustomerBll customerBll = new CustomerBll
+            {
+                FirstName = rentView.Customer.FirstName,
+                Surname = rentView.Customer.Surname,
+                Email = rentView.Customer.Email
+            };
+            RentBll rentBll = new RentBll(_sharingService.GetOfferById(rentView.OfferId), rentView.Customer.Email, rentView.InsuranceCase)
+            {
+                Customer = customerBll
+            };
             _sharingService.CreateRent(rentBll);
             return Redirect("/Home/Index");
         }
@@ -58,7 +68,7 @@ namespace WebCarSharing2.Controllers
         public ActionResult CloseRent(RentView rentView)
         {
             RentParametersBll parameters = new RentParametersBll
-                {CustomerEmail = rentView.CustomerEmail, OfferId = rentView.OfferId};
+                {CustomerEmail = rentView.Customer.Email, OfferId = rentView.OfferId};
 
             RentBll rentBll = _sharingService.GetOpenRentByOfferId(parameters);
 

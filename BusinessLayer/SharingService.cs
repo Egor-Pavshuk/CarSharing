@@ -22,7 +22,8 @@ namespace BusinessLayer
 
         public void CreateRent(RentBll rent)
         {
-            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.CustomerEmail, rent.InsuranceCase));
+            AddNewCustomer(rent.Customer);
+            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.Customer.Email, rent.InsuranceCase));
         }
         
         public List<MinivanOfferBll> GetAllMinivanOffers()
@@ -199,6 +200,19 @@ namespace BusinessLayer
             return true;
         }
 
+        public List<OfferBll> GetTakenOffers(ParametersBll parametersBll)
+        {
+            List<OfferBll> offersBll = new List<OfferBll>();
+            foreach (Offer offer in _dataSource.GetTakenOffers())
+            {
+                offersBll.Add(FactoryClass.CreateChild(offer));
+            }
+
+            if (offersBll.Count < parametersBll.PageSize)
+                return offersBll;
+            return offersBll.GetRange((parametersBll.Page - 1) * parametersBll.PageSize, parametersBll.PageSize);
+        }
+
         #region Rent
 
         public RentBll GetOpenRentByOfferId(RentParametersBll parameters)
@@ -226,7 +240,7 @@ namespace BusinessLayer
             rent.Cost = rent.GetShareCost();
             rent.EndDate = DateTime.Now;
             _dataSource.CloseRent(
-                new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.CustomerEmail, rent.InsuranceCase)
+                new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.Customer.Email, rent.InsuranceCase)
                 {
                     Cost = rent.Cost,
                     EndDate = rent.EndDate
@@ -234,6 +248,38 @@ namespace BusinessLayer
         }
 
         #endregion
+
+        public List<CustomerBll> GetAllCustomers()
+        {
+            List<CustomerBll> customersBll = new List<CustomerBll>();
+
+            foreach (var customer in _dataSource.GetAllCustomers())
+            {
+                customersBll.Add(new CustomerBll()
+                {
+                    Id = customer.Id,
+                    FirstName = customer.FirstName,
+                    Surname = customer.Surname,
+                    Email = customer.Email
+                });
+            }
+
+            return customersBll;
+        }
+
+        public void AddNewCustomer(CustomerBll customerBll)
+        {
+            Customer customer = new Customer
+            {
+                Id = customerBll.Id,
+                FirstName = customerBll.FirstName,
+                Surname = customerBll.Surname,
+                Email = customerBll.Email
+            };
+
+            if(_dataSource.IsCustomerExist(customer) != 1)
+                _dataSource.AddNewCustomer(customer);
+        }
 
         private bool _disposed;
         public void Dispose()

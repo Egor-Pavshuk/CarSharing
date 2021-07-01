@@ -23,6 +23,10 @@ namespace DAL.Interface
         int CountOfNullEndDateByOfferId(int offerId);
         Rent GetOpenRentByOfferId(RentParameters parameters);
         int CloseRent(Rent rent);
+        List<Offer> GetTakenOffers();
+        List<Customer> GetAllCustomers();
+        int AddNewCustomer(Customer customer);
+        int IsCustomerExist(Customer customer);
 
     }
 }

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IService.cs" />
+    <Compile Include="ModelsBll\CustomerBll.cs" />
     <Compile Include="ModelsBll\MinivanBll.cs" />
     <Compile Include="ModelsBll\OfferBll.cs" />
     <Compile Include="ModelsBll\OutroadCarBll.cs" />

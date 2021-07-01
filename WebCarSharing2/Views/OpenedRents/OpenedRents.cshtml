@@ -1,0 +1,67 @@
+﻿@using WebCarSharing2.HtmlHelpers
+@using WebCarSharing2.Models.Offers
+@model WebCarSharing.Models.Offers.OffersView
+
+@{
+    ViewBag.Title = "Opened Offers";
+}
+
+<div class="wrapper">
+
+    <div class="filters">
+
+        @using (Html.BeginForm("OpenedRents", "OpenedRents", FormMethod.Post, new { id = "dropDownForm" }))
+        {
+            ParametersView parameters = new ParametersView();
+            @Html.DropDownListFor(m => parameters.TypeFilter, new SelectList(new[] { "All types", "Minivan", "Sport car", "Out-road car" }), new { @class = "form-control typeFilter" })
+
+            @Html.DropDownListFor(m => parameters.PriceFilter, new SelectList(new[] { "Sort", "Down", "Up" }), new { @class = "form-control priceFilter" })
+
+            @Html.HiddenFor(model => parameters.Page, new { id = "searchPage" })
+
+            <input type="submit" value="Apply" class="btn btn-default">
+        }
+    </div>
+
+    <hr style="color: gray; height: 2px;" />
+    <div class="line">
+        @foreach (var offer in Model.Offers)
+        {
+            
+            <div class="product taken">
+                <div class="img">
+                    <img src=@offer.Image class="image" />
+                </div>
+                <div class="model">
+                    @offer.Model
+                </div>
+                <div class="type">
+                    Type: @offer.Type
+                </div>
+                <div class="year">
+                    Year: @offer.Year
+                </div>
+                <div class="price">
+                    Daily cost: @offer.DailyCost &#36;
+                </div>
+               @{/* <div class="rentButton"> //todo is need button here
+                    @Html.ActionLink("View rent", "CloseRent", "Rent", new { offerIndex = offer.Id }, new { @class = "btn btn-default" })
+                </div>*/}
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="pager">
+    @Html.PageLinksUsingSubmitForm(Model.PagingInfo, "javascrt : PageClick")
+</div>
+
+<script>
+    function PageClick(page) {
+        var searchPage = document.getElementById("searchPage");
+        searchPage.value = page;
+        var invokeSubmit = document.getElementById("dropDownForm");
+        invokeSubmit.submit();
+    }
+</script>

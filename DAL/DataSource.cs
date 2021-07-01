@@ -108,6 +108,30 @@ namespace DAL
             }
         }
 
+        public List<Offer> GetTakenOffers()
+        {
+            List<Offer> offers = new List<Offer>();
+
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Offer.Id, Image, Type, Description, Model, Year from Offer, Rent " +
+                             " where Rent.Id_Offer = Offer.Id and Rent.End_Date is NULL ";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        offers.Add(new Offer((int)item["Id"], (string)item["Model"],
+                            (int)item["Year"], (string)item["Image"], (string)item["Description"],
+                            (string)item["Type"]));
+                    }
+                }
+
+                return offers;
+            }
+        }
+
         #endregion
         //todo
 
@@ -224,7 +248,63 @@ namespace DAL
 
         #region Customers
 
+        public List<Customer> GetAllCustomers()
+        {
+            List<Customer> customers = new List<Customer>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, First_Name, Surname, [E-mail] from Customer ";
 
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.Fill(ds);
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        customers.Add(new Customer
+                        {
+                            Id = (int)item["Id"],
+                            FirstName = (string)item["First_Name"],
+                            Surname = (string)item["Surname"],
+                            Email = (string)item["E-mail"]
+                        });
+                    }
+                }
+
+                return customers;
+            }
+        }
+
+        public int AddNewCustomer(Customer customer)
+        {
+            string sql = "  Insert into Customer (First_Name, Surname, [E-mail]) " +
+                         " Values (@FirstName, @Surname, @Email) ";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
+            {
+                cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar);
+                cmd.Parameters["@FirstName"].Value = customer.FirstName;
+                cmd.Parameters.Add("@Surname", SqlDbType.NVarChar);
+                cmd.Parameters["@Surname"].Value = customer.Surname;
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                cmd.Parameters["@Email"].Value = customer.Email;
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int IsCustomerExist(Customer customer)
+        {
+            string sql = " select count(*) from Customer " +
+                         " where Customer.[E-mail] = @Email ";
+
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
+            {
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                cmd.Parameters["@Email"].Value = customer.Email;
+
+                return (int)cmd.ExecuteScalar();
+            }
+        }
 
         #endregion
 

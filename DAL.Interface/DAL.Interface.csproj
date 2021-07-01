@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDataSourse.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\MinivanOffer.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OutroadCarOffer.cs" />
@@ -54,7 +55,6 @@
     <Compile Include="Models\Rent.cs" />
     <Compile Include="Models\RentParameters.cs" />
     <Compile Include="Models\SportCarOffer.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
