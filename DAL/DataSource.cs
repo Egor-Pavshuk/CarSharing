@@ -306,6 +306,33 @@ namespace DAL
             }
         }
 
+        public Customer GetCustomerById(int customerIndex)
+        {
+
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, First_name, Surname, [E-mail] from Customer " +
+                             " where Customer.Id = @customerId ";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.SelectCommand.Parameters.Add("@customerId", SqlDbType.Int);
+                    da.SelectCommand.Parameters["@customerId"].Value = customerIndex;
+                    da.Fill(ds);
+
+                    DataRow dataRow = ds.Tables[0].Rows[0];
+
+                    return new Customer
+                    {
+                        Id = (int) dataRow["Id"],
+                        FirstName = (string) dataRow["First_name"],
+                        Surname = (string) dataRow["Surname"],
+                        Email = (string) dataRow["E-mail"]
+                    };
+                }
+            }
+        }
+
         #endregion
 
         #region Rents
@@ -384,6 +411,45 @@ namespace DAL
 
 
                 return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<Rent> GetRentsByEmail(string email)
+        {
+            List<Rent> rents = new List<Rent>();
+            using (DataSet ds = new DataSet())
+            {
+                string sql = " select Id, Id_Offer, Customer_Email, Start_Date, End_Date, Cost, Insurance_Case from Rent " +
+                             " where Customer_Email = @customerEmail ";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, _connection))
+                {
+                    da.SelectCommand.Parameters.Add("@customerEmail", SqlDbType.NVarChar);
+                    da.SelectCommand.Parameters["@customerEmail"].Value = email;
+                    
+                    da.Fill(ds);
+
+                    foreach (DataRow item in ds.Tables[0].Rows)
+                    {
+                        rents.Add(new Rent((int)item["Id"], (int)item["Id_Offer"],
+                            (DateTime)item["Start_Date"], (string)item["Customer_Email"], (bool)item["Insurance_Case"]));
+                    }
+
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        try
+                        {
+                            rents[i].EndDate = (DateTime) ds.Tables[0].Rows[i]["End_Date"];
+                            rents[i].Cost = float.Parse(ds.Tables[0].Rows[i]["Cost"].ToString());
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
+                    }
+
+                    return rents;
+                }
             }
         }
 

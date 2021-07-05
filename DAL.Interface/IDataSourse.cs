@@ -27,6 +27,7 @@ namespace DAL.Interface
         List<Customer> GetAllCustomers();
         int AddNewCustomer(Customer customer);
         int IsCustomerExist(Customer customer);
-
+        Customer GetCustomerById(int customerIndex);
+        List<Rent> GetRentsByEmail(string email);
     }
 }

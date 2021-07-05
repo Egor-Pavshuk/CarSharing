@@ -68,7 +68,7 @@ namespace WebCarSharing2.Controllers
         [HttpPost]
         public ActionResult Index(ParametersView parameters)
         {
-            ParametersBll parametersBll = new ParametersBll()
+            ParametersBll parametersBll = new ParametersBll
             {
                 PriceFilter = parameters.PriceFilter, 
                 TypeFilter = parameters.TypeFilter,

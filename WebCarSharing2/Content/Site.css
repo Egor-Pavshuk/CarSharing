@@ -204,3 +204,84 @@ float: left;
     font-weight: bold;
     margin-bottom: 50px;
 }
+
+.customers {
+    min-width: 1150px;
+    min-height: 1020px;
+}
+
+.customer {
+    min-width: 1135px;
+    min-height: 70px;
+    width: 1135px;
+    border: 2px solid;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.customerId {
+    padding-top: 18px;
+    min-width: 100px;
+    min-height: 70px;
+    text-align: center;
+    float: left;
+    font-size: 22px;
+}
+.customerName {
+    font-size: 18px;
+    padding-left: 25px;
+    padding-top: 9px;
+    min-width: 100px;
+    min-height: 70px;
+    float: left;
+}
+.firstName {
+    min-width: 100px;
+    min-height: 30px;
+    text-align: center;
+}
+
+.surname {
+    min-width: 100px;
+    min-height: 30px;
+    text-align: center;
+}
+.email {
+    padding-left: 150px;
+    padding-top: 20px;
+    min-width: 100px;
+    min-height: 70px;
+    text-align: center;
+    float: left;
+    text-align: center;
+    font-size: 18px;
+}
+.customerDetails {
+    min-width: 50px;
+    min-height: 70px;
+    margin-right: 0;
+    padding-top: 18px;
+}
+
+.customerOffer {
+    background: #666666;
+    color: white;
+    height: 400px;
+    width: 300px;
+    min-width: 300px;
+    min-height: 400px;
+    margin-left: 60px;
+    margin-top: 30px;
+    border: 3px solid darkgrey;
+    border-style: outset;
+    border-radius: 10px;
+    float: left;
+}
+
+.rentParameters {
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+    text-align: left;
+    font-weight: bolder;
+    margin-left: 20px;
+}

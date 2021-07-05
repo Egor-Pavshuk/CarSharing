@@ -3,7 +3,7 @@
 @model WebCarSharing.Models.Offers.OffersView
 
 @{
-    ViewBag.Title = "Opened Offers";
+    ViewBag.Title = "Opened Rents";
 }
 
 <div class="wrapper">
@@ -44,9 +44,7 @@
                 <div class="price">
                     Daily cost: @offer.DailyCost &#36;
                 </div>
-               @{/* <div class="rentButton"> //todo is need button here
-                    @Html.ActionLink("View rent", "CloseRent", "Rent", new { offerIndex = offer.Id }, new { @class = "btn btn-default" })
-                </div>*/}
+               
             </div>
 
         }

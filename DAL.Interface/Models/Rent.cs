@@ -20,6 +20,8 @@ namespace DAL.Interface
             StartDate = startDate;
             CustomerEmail = customerEmail;
             InsuranceCase = insuranceCase;
+            EndDate = DateTime.MinValue;
+            Cost = 0;
         }
     }
 }

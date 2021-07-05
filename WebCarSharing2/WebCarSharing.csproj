@@ -129,6 +129,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
+    <Compile Include="Models\Customer\CustomerDetailsView.cs" />
     <Compile Include="Models\Customer\CustomersView.cs" />
     <Compile Include="Models\Customer\CustomerView.cs" />
     <Compile Include="Models\Offers\OffersView.cs" />
@@ -191,6 +192,7 @@
     <Content Include="Views\Rent\CustomerNotFound.cshtml" />
     <Content Include="Views\OpenedRents\OpenedRents.cshtml" />
     <Content Include="Views\Customer\AllCustomers.cshtml" />
+    <Content Include="Views\Customer\CustomerDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

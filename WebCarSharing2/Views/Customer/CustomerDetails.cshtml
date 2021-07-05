@@ -1,0 +1,105 @@
+﻿@using WebCarSharing2.HtmlHelpers
+@using WebCarSharing2.Models.Offers
+@model WebCarSharing2.Models.Customer.CustomerDetailsView
+@{
+    ViewBag.Title = "Customer Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="wrapper">
+    @using (Html.BeginForm("CustomerDetails", "Customer", FormMethod.Post, new { id = "dropDownForm" }))
+    {
+        ParametersView parameters = new ParametersView();
+        parameters.CustomerId = Model.Id;
+        @Html.HiddenFor(model => parameters.Page, new { id = "searchPage" })
+        @Html.HiddenFor(model => parameters.CustomerId, new { id = "customerId" })
+
+    }
+    <h2>Customer details</h2>
+
+    <div class="customer">
+        <div class="customerId">
+            @Model.Id
+        </div>
+        <div class="customerName">
+            <div class="firstName">
+                Name: @Model.FirstName
+            </div>
+            <div class="surname">
+                Surname: @Model.Surname
+            </div>
+        </div>
+        <div class="email">
+            E-mail: @Model.Email
+        </div>
+
+    </div>
+
+    <hr style="color: gray; height: 2px;" />
+
+    <div class="line">
+        @for (int i = 0; i < Model.Offers.Count; i++)
+        {
+            string className = "customerOffer";
+            if (Model.Rents[i].EndDate == DateTime.MinValue)
+            {
+                className += " taken";
+            }
+            <div class="@className">
+                <div class="img">
+                    <img src=@Model.Offers[i].Image class="image" />
+                </div>
+                <div class="model">
+                    @Model.Offers[i].Model
+                </div>
+                <div class="type">
+                    Type: @Model.Offers[i].Type
+                </div>
+                <div class="year">
+                    Year: @Model.Offers[i].Year
+                </div>
+                <div class="price">
+                    Daily cost: @Model.Offers[i].DailyCost &#36;
+                </div>
+                <div class="rentParameters">
+                    Start date: @Model.Rents[i].StartDate
+                </div>
+                @if (Model.Rents[i].EndDate != DateTime.MinValue)
+                {
+                    <div class="rentParameters">
+                        End date: @Model.Rents[i].EndDate
+                    </div>
+                }
+                else
+                {
+                    <div class="rentParameters">
+                        End date: <b>absent</b>
+                    </div>
+                }
+                <div class="rentParameters">
+                    Full cost: @Model.Rents[i].Cost &#36;
+                </div>
+            </div>
+
+        }
+    </div>
+
+
+</div>
+@Html.ActionLink("Back to List", "AllCustomers", "Customer", null, new { @class = "btn btn-default", style = "float: left; margin-top: 30px; margin-left: 10px;" })
+<div class="pager">
+    @Html.PageLinksUsingSubmitForm(Model.PagingInfo, "javascrt : PageClick")
+</div>
+
+<script>
+    function PageClick(page) {
+        var searchPage = document.getElementById("searchPage");
+        searchPage.value = page;
+        var customerId = document.getElementById("customerId");
+        customerId.value = @Model.Id;
+        var invokeSubmit = document.getElementById("dropDownForm");
+        invokeSubmit.submit();
+    }
+</script>

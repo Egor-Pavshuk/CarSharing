@@ -10,6 +10,7 @@ namespace WebCarSharing2.Models.Offers
         public int Page { get; set; }
         public string PriceFilter { get; set; }
         public string TypeFilter { get; set; }
+        public int CustomerId { get; set; }
         public ParametersView()
         {
             Page = 1;

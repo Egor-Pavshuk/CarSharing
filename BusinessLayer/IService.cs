@@ -27,6 +27,8 @@ namespace BusinessLayer
         List<OfferBll> GetTakenOffers(ParametersBll parametersBll);
         List<CustomerBll> GetAllCustomers();
         void AddNewCustomer(CustomerBll customerBll);
-
+        List<CustomerBll> GetCurrentPageCustomers(List<CustomerBll> customers, ParametersBll parameters);
+        CustomerBll GetCustomerById(int customerIndex);
+        List<RentBll> GetRentsByEmail(string email);
     }
 }

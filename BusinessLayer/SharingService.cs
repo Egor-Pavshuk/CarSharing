@@ -20,11 +20,7 @@ namespace BusinessLayer
             _dataSource = dataSource;
         }
 
-        public void CreateRent(RentBll rent)
-        {
-            AddNewCustomer(rent.Customer);
-            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.Customer.Email, rent.InsuranceCase));
-        }
+        
         
         public List<MinivanOfferBll> GetAllMinivanOffers()
         {
@@ -214,6 +210,11 @@ namespace BusinessLayer
         }
 
         #region Rent
+        public void CreateRent(RentBll rent)
+        {
+            AddNewCustomer(rent.Customer);
+            _dataSource.CreateRent(new Rent(rent.Id, rent.OfferBll.Id, rent.StartDate, rent.Customer.Email, rent.InsuranceCase));
+        }
 
         public RentBll GetOpenRentByOfferId(RentParametersBll parameters)
         {
@@ -245,6 +246,24 @@ namespace BusinessLayer
                     Cost = rent.Cost,
                     EndDate = rent.EndDate
                 });
+        }
+
+        public List<RentBll> GetRentsByEmail(string email)
+        {
+            List<RentBll> rentsBll = new List<RentBll>();
+
+            foreach (Rent rent in _dataSource.GetRentsByEmail(email))
+            {
+                rentsBll.Add(new RentBll(FactoryClass.CreateChild(_dataSource.GetOfferById(rent.OfferId)), rent.CustomerEmail, rent.InsuranceCase)
+                {
+                    Cost = rent.Cost,
+                    EndDate = rent.EndDate,
+                    StartDate = rent.StartDate
+                    
+                });
+            }
+
+            return rentsBll;
         }
 
         #endregion
@@ -279,6 +298,23 @@ namespace BusinessLayer
 
             if(_dataSource.IsCustomerExist(customer) != 1)
                 _dataSource.AddNewCustomer(customer);
+        }
+
+        public List<CustomerBll> GetCurrentPageCustomers(List<CustomerBll> customers, ParametersBll parameters) =>
+            customers.Skip((parameters.Page - 1) * parameters.PageSize).Count() >= parameters.PageSize ?
+                customers.GetRange((parameters.Page - 1) * parameters.PageSize, parameters.PageSize) :
+                customers.Skip((parameters.Page - 1) * parameters.PageSize).ToList();
+
+        public CustomerBll GetCustomerById(int customerIndex)
+        {
+            Customer customer = _dataSource.GetCustomerById(customerIndex);
+            return new CustomerBll
+            {
+                FirstName = customer.FirstName,
+                Surname = customer.Surname,
+                Id = customer.Id,
+                Email = customer.Email
+            };
         }
 
         private bool _disposed;

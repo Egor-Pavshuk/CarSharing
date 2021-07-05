@@ -7,50 +7,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Clients</h2>
+<div class="wrapper">
+    <h2>All Clients</h2>
 
-@using (Html.BeginForm("AllCustomers", "Customer", FormMethod.Post, new { id = "dropDownForm" }))
-{
-    ParametersView parameters = new ParametersView();
-    @Html.HiddenFor(model => parameters.Page, new { id = "searchPage" })
-}
-
-<hr style="color: gray; height: 2px;" />
-<div class="line">
-    @foreach (var customer in Model.Customers)
+    @using (Html.BeginForm("AllCustomers", "Customer", FormMethod.Post, new { id = "dropDownForm" }))
     {
-        
-        <div class="">
-            <div class="model">
-                @customer.Id
-            </div>
-            <div class="type">
-                Name: @customer.FirstName
-            </div>
-            <div class="year">
-                Surname: @customer.Surname
-            </div>
-            <div class="price">
-                E-mail: @customer.Email
-            </div>
-            <div class="CustomerDetails">
-                @Html.ActionLink("View details", "Index", "Home", new { customerIndex = customer.Id }, new { @class = "btn btn-default" })
-
-            </div>
-        </div>
-
+        ParametersView parameters = new ParametersView();
+        @Html.HiddenFor(model => parameters.Page, new { id = "searchPage" })
     }
-</div>
 
-<div class="pager">
-    @Html.PageLinksUsingSubmitForm(Model.PagingInfo, "javascrt : PageClick")
-</div>
+    <hr style="color: gray; height: 2px;" />
+    <div class="customers">
+        @foreach (var customer in Model.Customers)
+        {
 
-<script>
-    function PageClick(page) {
-        var searchPage = document.getElementById("searchPage");
-        searchPage.value = page;
-        var invokeSubmit = document.getElementById("dropDownForm");
-        invokeSubmit.submit();
-    }
-</script>
+            <div class="customer">
+                <div class="customerId">
+                    @customer.Id
+                </div>
+                <div class="customerName">
+                    <div class="firstName">
+                        Name: @customer.FirstName
+                    </div>
+                    <div class="surname">
+                        Surname: @customer.Surname
+                    </div>
+                </div>
+                <div class="email">
+                    E-mail: @customer.Email
+                </div>
+                <div class="customerDetails">
+                    @Html.ActionLink("View details", "CustomerDetails", "Customer", new { customerIndex = customer.Id }, new { @class = "btn btn-default" })
+
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+    <div class="pager">
+        @Html.PageLinksUsingSubmitForm(Model.PagingInfo, "javascrt : PageClick")
+    </div>
+
+    <script>
+        function PageClick(page) {
+            var searchPage = document.getElementById("searchPage");
+            searchPage.value = page;
+            var invokeSubmit = document.getElementById("dropDownForm");
+            invokeSubmit.submit();
+        }
+    </script>
