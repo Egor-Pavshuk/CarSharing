@@ -80,10 +80,11 @@ namespace WebCarSharing2.Controllers
                 PageSize = PagerParameters.PageSize
             };
             List<OfferView> offers = new List<OfferView>();
-            List<OfferBll> offersBll = _sharingService.GetSelectedTypes(parametersBll); //todo modify method for searching taken rents
+            List<OfferBll> offersBll = _sharingService.GetSelectedTypes(parametersBll); 
 
             _sharingService.Sort(parametersBll, offersBll);
-            offersBll = _sharingService.GetCurrentPageItems(offersBll, parametersBll); // todo may be error
+            offersBll = offersBll.Where(offer => _sharingService.IsOfferTaken(offer.Id)).ToList();
+            offersBll = _sharingService.GetCurrentPageItems(offersBll, parametersBll); 
 
             foreach (var offer in offersBll)
             {
